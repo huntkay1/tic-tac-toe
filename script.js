@@ -29,6 +29,50 @@ function Gameboard() {
 }
 
 
+// this function keeps track of who's turn it is 
+function GameController(playerOneName = "Player One", playerTwoName = "Player Two" ) {
+    const players = [
+        {
+            name: playerOneName,
+            token: "X"
+        }, 
+        {
+            name: playerTwoName,
+            token: "O"
+        }
+    ];
+
+    let activePlayer = players[0];
+    const switchPlayerTurn = () => {
+        if (activePlayer === players[0]) {
+            activePlayer = players[1];
+        } else {
+            activePlayer = players[0];
+        }
+    };
+
+    const getActivePlayer = () => activePlayer;
+
+    
+    return {switchPlayerTurn, getActivePlayer};
+
+}
+
+const game = GameController("Alice", "Bob");
+console.log(game.getActivePlayer()); // Logs: { name: 'Player One', token: 'X' }
+game.switchPlayerTurn();
+console.log(game.getActivePlayer()); // Logs: { name: 'Player Two', token: 'O' }
+game.switchPlayerTurn();
+console.log(game.getActivePlayer());
+
+
+
+
+
+
+
+
+
 
 
 
