@@ -1,20 +1,20 @@
 
 
 //this function creates the gameboard
-function Gameboard() {
+const Gameboard = (function () {
     const board = ["", "", "", "", "", "", "", "", ""];
 
     // makes the board accessible
     const getBoard = () => board;
 
     return {getBoard}
-}
+})();
 
 
 
 // switches between players for each turn and keeps track of active player.
 // adds token to array with each player's move 
-function GameController(playerOneName = "Player One", playerTwoName = "Player Two" ) {
+const GameController = (function(playerOneName = "Player One", playerTwoName = "Player Two" ) {
     const winningCombos = [
         [0,1,2], 
         [3,4,5], 
@@ -26,6 +26,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         [2,4,6]
     ];
     
+
     const players = [
         {
             name: playerOneName,
@@ -47,12 +48,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     const getActivePlayer = () => activePlayer;
 
+
     //makes move by placing player's token in array 
-    const board = Gameboard().getBoard();
+    const board = Gameboard.getBoard();
     const makeMove = () => {
         token = activePlayer.token;
 
-        box = prompt("box: ")
+        box = prompt("box: ");
+
         //checks move validity
         if (board[box] === "") {
             board[box] = token;
@@ -60,12 +63,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             checkForWin();
         } else {
             alert("Can't move there!")
-        }
+        };
 
         console.log(board); //DELETE WHEN READY
     };
 
-    //compares each winning combo with 
+
+    //compares each winning combo with a board row at those indexes 
+    //if a each element in that row is the same, it's a win and board is reset
     const checkForWin = () => {
         winningCombos.forEach(condition => {
             let [a, b, c] = condition
@@ -75,23 +80,23 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
                 boardReset();
             } else {
                 return false;
-        }
-
-        })
+            };
+        });
     };
+
 
     const boardReset = () => {
         board.fill("");
-    }
+    };
 
 
-    return {getActivePlayer, makeMove};
+    return {getActivePlayer, makeMove}
 
-}
+})();
 
 
 
-const game = GameController();
+
 
 
 
