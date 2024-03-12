@@ -9,6 +9,7 @@ const winningCombos = [
     [2,4,6]
 ]
 
+//this function creates the gameboard
 function Gameboard() {
     const board = [];
     const rows = 3;
@@ -23,13 +24,15 @@ function Gameboard() {
     }
 
     // makes the board accessible
-    const getBoard = () => console.log(board);
+    const getBoard = () => board;
 
     return {getBoard}
 }
 
 
-// this function keeps track of who's turn it is 
+
+// switches between players for each turn and keeps track of active player.
+// adds token to array with each player's move 
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two" ) {
     const players = [
         {
@@ -42,30 +45,37 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         }
     ];
 
+    
+    //alternates player turns
     let activePlayer = players[0];
     const switchPlayerTurn = () => {
-        if (activePlayer === players[0]) {
-            activePlayer = players[1];
-        } else {
-            activePlayer = players[0];
-        }
+        activePlayer = activePlayer === players[0] ? players[1] : players[0]
     };
+
 
     const getActivePlayer = () => activePlayer;
 
-    
-    return {switchPlayerTurn, getActivePlayer};
+    //makes move by placing player's token in array 
+    board = Gameboard().getBoard();
+    const makeMove = () => {
+        token = activePlayer.token;
+
+        column = prompt("column: ");
+        row = prompt("row: ");
+
+        board[column][row] = token;
+
+        console.log(board); 
+        switchPlayerTurn();
+    }
+
+    return {switchPlayerTurn, getActivePlayer, makeMove};
 
 }
 
-const game = GameController("Alice", "Bob");
-console.log(game.getActivePlayer()); // Logs: { name: 'Player One', token: 'X' }
-game.switchPlayerTurn();
-console.log(game.getActivePlayer()); // Logs: { name: 'Player Two', token: 'O' }
-game.switchPlayerTurn();
-console.log(game.getActivePlayer());
 
 
+const game = GameController();
 
 
 
