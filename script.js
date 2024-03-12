@@ -1,27 +1,10 @@
-const winningCombos = [
-    [0,1,2], 
-    [3,4,5], 
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-]
+
 
 //this function creates the gameboard
 function Gameboard() {
-    const board = [];
+    const board = [["", "", ""], ["", "", ""], ["", "", ""]];
     const rows = 3;
     const columns = 3;
-
-    // creates a 2D array for the gameboard (3x3)
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push("");
-        }
-    }
 
     // makes the board accessible
     const getBoard = () => board;
@@ -34,6 +17,17 @@ function Gameboard() {
 // switches between players for each turn and keeps track of active player.
 // adds token to array with each player's move 
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two" ) {
+    const winningCombos = [
+        [0,1,2], 
+        [3,4,5], 
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+    ]
+    
     const players = [
         {
             name: playerOneName,
@@ -64,14 +58,25 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         row = prompt("row: ");
 
         //checks move validity
-        board[column][row] === "" ? board[column][row] = token : alert("Can't move there!");
+        if (board[column][row] === "") {
+            board[column][row] = token;
+            switchPlayerTurn();
+        } else {
+            alert("Can't move there!")
+        }
 
         console.log(board); 
-        switchPlayerTurn();
+    }
+
+    
+    const checkForWin = () => {
+        winningCombos.forEach(row => {
+            
+        } )
     }
 
 
-    return {getActivePlayer, makeMove};
+    return {getActivePlayer, makeMove, checkForWin};
 
 }
 
