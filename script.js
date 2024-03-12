@@ -2,10 +2,7 @@
 
 //this function creates the gameboard
 function Gameboard() {
-    const board = ["X", "", "X", "", "X", "", "", "", "", ];
-
-    const rows = 3;
-    const columns = 3;
+    const board = ["", "", "", "", "", "", "", "", ""];
 
     // makes the board accessible
     const getBoard = () => board;
@@ -68,13 +65,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         console.log(board); //DELETE WHEN READY
     };
 
-
+    //compares each winning combo with 
     const checkForWin = () => {
         winningCombos.forEach(condition => {
             let [a, b, c] = condition
 
-            if (board[a] !== "" && (board[a] === board[b] && board[b] == board[c])) {
-                alert("Win")
+            if (board[a] !== "" && (board[a] === board[b] && board[b] === board[c])) {
+                alert("Win") //CHANGE THIS WHEN READY
+                boardReset();
             } else {
                 return false;
         }
@@ -82,8 +80,12 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         })
     };
 
+    const boardReset = () => {
+        board.fill("");
+    }
 
-    return {getActivePlayer, makeMove, checkForWin};
+
+    return {getActivePlayer, makeMove};
 
 }
 
