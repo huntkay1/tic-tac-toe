@@ -2,7 +2,8 @@
 
 //this function creates the gameboard
 function Gameboard() {
-    const board = [["", "", ""], ["", "", ""], ["", "", ""]];
+    const board = ["X", "", "X", "", "X", "", "", "", "", ];
+
     const rows = 3;
     const columns = 3;
 
@@ -26,7 +27,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         [2,5,8],
         [0,4,8],
         [2,4,6]
-    ]
+    ];
     
     const players = [
         {
@@ -54,26 +55,32 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const makeMove = () => {
         token = activePlayer.token;
 
-        column = prompt("column: ");
-        row = prompt("row: ");
-
+        box = prompt("box: ")
         //checks move validity
-        if (board[column][row] === "") {
-            board[column][row] = token;
+        if (board[box] === "") {
+            board[box] = token;
             switchPlayerTurn();
+            checkForWin();
         } else {
             alert("Can't move there!")
         }
 
-        console.log(board); 
-    }
+        console.log(board); //DELETE WHEN READY
+    };
 
-    
+
     const checkForWin = () => {
-        winningCombos.forEach(row => {
-            
-        } )
-    }
+        winningCombos.forEach(condition => {
+            let [a, b, c] = condition
+
+            if (board[a] !== "" && (board[a] === board[b] && board[b] == board[c])) {
+                alert("Win")
+            } else {
+                return false;
+        }
+
+        })
+    };
 
 
     return {getActivePlayer, makeMove, checkForWin};
