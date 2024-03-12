@@ -19,7 +19,7 @@ function Gameboard() {
     for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
-            board[i].push(0);
+            board[i].push("");
         }
     }
 
@@ -56,20 +56,22 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const getActivePlayer = () => activePlayer;
 
     //makes move by placing player's token in array 
-    board = Gameboard().getBoard();
+    const board = Gameboard().getBoard();
     const makeMove = () => {
         token = activePlayer.token;
 
         column = prompt("column: ");
         row = prompt("row: ");
 
-        board[column][row] = token;
+        //checks move validity
+        board[column][row] === "" ? board[column][row] = token : alert("Can't move there!");
 
         console.log(board); 
         switchPlayerTurn();
     }
 
-    return {switchPlayerTurn, getActivePlayer, makeMove};
+
+    return {getActivePlayer, makeMove};
 
 }
 
