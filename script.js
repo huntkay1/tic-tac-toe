@@ -1,20 +1,6 @@
 
-
-//this function creates the gameboard
-const Gameboard = (function () {
-    const board = ["", "", "", "", "", "", "", "", ""];
-
-    // makes the board accessible
-    const getBoard = () => board;
-
-    return {getBoard}
-})();
-
-
-
-// switches between players for each turn and keeps track of active player.
-// adds token to array with each player's move 
 const GameController = (function(playerOneName = "Player One", playerTwoName = "Player Two" ) {
+
     const winningCombos = [
         [0,1,2], 
         [3,4,5], 
@@ -38,9 +24,18 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         }
     ];
 
+
+    let count = 0;
+    let winCheck = false;
+    let activePlayer = players[0];
+    const board = ["", "", "", "", "", "", "", "", ""];
+
+
+    // makes the board accessible
+    const getBoard = () => board;
+
     
     //alternates player turns
-    let activePlayer = players[0];
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0]
     };
@@ -50,7 +45,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
 
     //makes move by placing player's token in array 
-    const board = Gameboard.getBoard();
+    
     const makeMove = () => {
         token = activePlayer.token;
 
@@ -59,13 +54,10 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         //checks move validity
         if (board[box] === "") {
             board[box] = token;
-            switchPlayerTurn();
-            checkForWin();
         } else {
             alert("Can't move there!")
         };
 
-        console.log(board); //DELETE WHEN READY
     };
 
 
@@ -76,23 +68,51 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
             let [a, b, c] = condition
 
             if (board[a] !== "" && (board[a] === board[b] && board[b] === board[c])) {
-                alert("Win") //CHANGE THIS WHEN READY
-                boardReset();
-            } else {
-                return false;
-            };
+                winCheck = true;
+            }
         });
     };
 
-
+    
+    //resets manipulated elements
     const boardReset = () => {
         board.fill("");
+        count = 0;
+        winCheck = false;
     };
 
+    //started loop. Need to check for win each time 
+    const game = function () {
+        while (!winCheck && count < 9) {
+            makeMove();
+            checkForWin();
+            console.log(winCheck);
+            console.log(board);
+            switchPlayerTurn();
+            count++;
+        }
 
-    return {getActivePlayer, makeMove}
+        if (winCheck) {
+            alert("Win")
+        } else if (!winCheck && count === 9) {
+            alert("Draw")
+        }
+
+        boardReset();
+        console.log(board);
+    }
+
+
+    return {getBoard, getActivePlayer, makeMove, game}
 
 })();
+
+
+
+
+
+
+
 
 
 
