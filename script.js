@@ -25,14 +25,14 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     ];
 
 
-    let count = 0;
+    let filledSquares = 0;
     let winCheck = false;
     let activePlayer = players[0];
-    const board = ["", "", "", "", "", "", "", "", ""];
+    const gameboard = ["", "", "", "", "", "", "", "", ""];
 
 
     // makes the board accessible
-    const getBoard = () => board;
+    const getBoard = () => gameboard;
 
     
     //alternates player turns
@@ -44,16 +44,15 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     const getActivePlayer = () => activePlayer;
 
 
-    //makes move by placing player's token in array 
-    
+    //makes valid move by placing player's token in array 
     const makeMove = () => {
         token = activePlayer.token;
 
         box = prompt("box: ");
 
         //checks move validity
-        if (board[box] === "") {
-            board[box] = token;
+        if (gameboard[box] === "") {
+            gameboard[box] = token;
         } else {
             alert("Can't move there!")
         };
@@ -62,44 +61,44 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
 
     //compares each winning combo with a board row at those indexes 
-    //if a each element in that row is the same, it's a win and board is reset
     const checkForWin = () => {
         winningCombos.forEach(condition => {
             let [a, b, c] = condition
 
-            if (board[a] !== "" && (board[a] === board[b] && board[b] === board[c])) {
+            if (gameboard[a] !== "" && (gameboard[a] === gameboard[b] && gameboard[b] === gameboard[c])) {
                 winCheck = true;
             }
+
         });
     };
 
     
     //resets manipulated elements
-    const boardReset = () => {
-        board.fill("");
-        count = 0;
+    const resetGame = () => {
+        gameboard.fill("");
+        filledSquares = 0;
         winCheck = false;
     };
 
-    //started loop. Need to check for win each time 
+    //initializes and plays the game 
     const game = function () {
-        while (!winCheck && count < 9) {
+        while (!winCheck && filledSquares < 9) {
             makeMove();
             checkForWin();
             console.log(winCheck);
-            console.log(board);
+            console.log(gameboard);
             switchPlayerTurn();
-            count++;
+            filledSquares++;
         }
 
         if (winCheck) {
             alert("Win")
-        } else if (!winCheck && count === 9) {
+        } else if (!winCheck && filledSquares === 9) {
             alert("Draw")
         }
 
-        boardReset();
-        console.log(board);
+        resetGame();
+        console.log(gameboard);
     }
 
 
