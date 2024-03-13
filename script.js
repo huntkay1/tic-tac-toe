@@ -1,6 +1,4 @@
-
 const GameController = (function(playerOneName = "Player One", playerTwoName = "Player Two" ) {
-
     const winningCombos = [
         [0,1,2], 
         [3,4,5], 
