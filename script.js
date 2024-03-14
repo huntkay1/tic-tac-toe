@@ -52,9 +52,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         } else {
             alert("Can't move there!")
         };
-
-        console.log(gameboard);
-
     };
 
 
@@ -105,9 +102,11 @@ gameboard = [...gameboard];
 
 gameboard.forEach(square => {
     square.addEventListener('click', (e) => {
-        box = e.target.id
-        key = Number(box.charAt(box.length-1));
-        GameController.game(key);
+        var box = e.target.id
+        var token = GameController.getActivePlayer().token;
+        boxNumber = Number(box.charAt(box.length-1));
+        square.innerHTML = token;
+        GameController.game(boxNumber);
     });
 })
 
