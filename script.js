@@ -42,18 +42,22 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     const getActivePlayer = () => activePlayer;
 
 
-    //makes valid move by placing player's token in array 
+    //places token in the array
     const makeMove = (box) => {
         token = activePlayer.token;
+        gameboard[box] = token;
+    };
+    
+    //checks for move vailidity
+    const validityCheck = (box) => {
 
-        //checks move validity
         if (gameboard[box] === "") {
-            gameboard[box] = token;
+            return true;
         } else {
             alert("Can't move there!")
         };
-    };
 
+    }
 
     //compares each winning combo with a board row at those indexes 
     const checkForWin = () => {
@@ -66,7 +70,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         });
     };
 
-    
     //resets manipulated elements
     const resetGame = () => {
         gameboard.fill("");
@@ -93,7 +96,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
     }
 
-    return {getBoard, getActivePlayer, game}
+    return {getBoard, getActivePlayer, game, validityCheck}
 
 })();
 
@@ -105,8 +108,11 @@ gameboard.forEach(square => {
         var box = e.target.id
         var token = GameController.getActivePlayer().token;
         boxNumber = Number(box.charAt(box.length-1));
-        square.innerHTML = token;
-        GameController.game(boxNumber);
+        validMove = GameController.validityCheck(boxNumber);
+        if (validMove) {
+            square.innerHTML = token;
+            GameController.game(boxNumber);
+        };
     });
 })
 
