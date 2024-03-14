@@ -83,7 +83,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         while (!winCheck && filledSquares < 9) {
             makeMove();
             checkForWin();
-            console.log(winCheck);
             console.log(gameboard);
             switchPlayerTurn();
             filledSquares++;
