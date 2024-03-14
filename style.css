@@ -22,6 +22,8 @@ body {
     box-sizing: border-box;
     height: 100%;
     width: auto;
+    background-color: transparent;
+    border: none;
 }
 
 #box-0, #box-1, #box-3, #box-4 {
@@ -32,7 +34,6 @@ body {
 #box-2, #box-5 {
     border-bottom: var(--border);
 }
-
 
 #box-6, #box-7 {
     border-right: var(--border);
