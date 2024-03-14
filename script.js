@@ -43,10 +43,8 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
 
     //makes valid move by placing player's token in array 
-    const makeMove = () => {
+    const makeMove = (box) => {
         token = activePlayer.token;
-
-        box = prompt("box: ");
 
         //checks move validity
         if (gameboard[box] === "") {
@@ -54,6 +52,8 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         } else {
             alert("Can't move there!")
         };
+
+        console.log(gameboard);
 
     };
 
@@ -66,7 +66,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
             if (gameboard[a] !== "" && (gameboard[a] === gameboard[b] && gameboard[b] === gameboard[c])) {
                 winCheck = true;
             }
-
         });
     };
 
@@ -79,31 +78,38 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     };
 
     //initializes and plays the game 
-    const game = function () {
-        while (!winCheck && filledSquares < 9) {
-            makeMove();
+    const game = function (key) {
+        if (!winCheck && filledSquares < 9) {
+            makeMove(key);
             checkForWin();
-            console.log(gameboard);
             switchPlayerTurn();
             filledSquares++;
         }
 
         if (winCheck) {
             alert("Win")
+            resetGame();
         } else if (!winCheck && filledSquares === 9) {
             alert("Draw")
+            resetGame();
         }
 
-        resetGame();
-        console.log(gameboard);
     }
 
-
-    return {getBoard, getActivePlayer, makeMove, game}
+    return {getBoard, getActivePlayer, game}
 
 })();
 
+let gameboard = document.getElementsByClassName("box");
+gameboard = [...gameboard];
 
+gameboard.forEach(square => {
+    square.addEventListener('click', (e) => {
+        box = e.target.id
+        key = Number(box.charAt(box.length-1));
+        GameController.game(key);
+    });
+})
 
 
 
