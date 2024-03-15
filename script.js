@@ -28,10 +28,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     let activePlayer = players[0];
     const gameboard = ["", "", "", "", "", "", "", "", ""];
 
-
-    // makes the board accessible
-    const getBoard = () => gameboard;
-
     
     //alternates player turns
     const switchPlayerTurn = () => {
@@ -50,14 +46,12 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     
     //checks for move vailidity
     const validityCheck = (box) => {
-
         if (gameboard[box] === "") {
             return true;
         } else {
             alert("Can't move there!")
         };
-
-    }
+    };
 
     //compares each winning combo with a board row at those indexes 
     const checkForWin = () => {
@@ -75,6 +69,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         gameboard.fill("");
         filledSquares = 0;
         winCheck = false;
+        activePlayer = players[0];
     };
 
     //initializes and plays the game 
@@ -88,33 +83,53 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
         if (winCheck) {
             alert("Win")
-            resetGame();
         } else if (!winCheck && filledSquares === 9) {
             alert("Draw")
-            resetGame();
         }
 
     }
 
-    return {getBoard, getActivePlayer, game, validityCheck}
+    return {getActivePlayer, game, validityCheck, resetGame}
 
 })();
 
-let gameboard = document.getElementsByClassName("box");
+var gameboard = document.getElementsByClassName("box");
 gameboard = [...gameboard];
+var resetBttn = document.getElementById("resetBttn");
 
 gameboard.forEach(square => {
     square.addEventListener('click', (e) => {
-        var box = e.target.id
-        var token = GameController.getActivePlayer().token;
-        boxNumber = Number(box.charAt(box.length-1));
-        validMove = GameController.validityCheck(boxNumber);
-        if (validMove) {
-            square.innerHTML = token;
-            GameController.game(boxNumber);
-        };
+        placeToken(e, square)}
+    ) 
+});
+
+
+function placeToken(e, square) {
+    var box = e.target.id
+    var token = GameController.getActivePlayer().token;
+    boxNumber = Number(box.charAt(box.length-1));
+    validMove = GameController.validityCheck(boxNumber);
+    if (validMove) {
+        square.innerHTML = token;
+        GameController.game(boxNumber);
+    };
+};
+
+resetBttn.addEventListener('click', resetBoard);
+
+function resetBoard() {
+    gameboard.forEach(square => {
+        square.innerHTML = " ";
     });
-})
+
+    GameController.resetGame();
+};
+
+
+
+
+
+
 
 
 
