@@ -113,8 +113,13 @@ const UIController = function() {
         var boxNumber = Number(box.charAt(box.length-1));
         validMove = GameController.validityCheck(boxNumber);
         if (validMove) {
-            square.innerHTML = token;
-            GameController.game(boxNumber);
+            if (token === "X") {
+                square.innerHTML = "<img src='X-animation.gif' class='animation'/> ";
+                GameController.game(boxNumber);
+            } else {
+                square.innerHTML = "<img src='O-animation.gif' class='animation'/> ";
+                GameController.game(boxNumber);
+            }
         };
     };
 
