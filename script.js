@@ -10,7 +10,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         [2,4,6]
     ];
     
-
     const players = [
         {
             name: playerOneName,
@@ -21,7 +20,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
             token: "O"
         }
     ];
-
 
     let filledSquares = 0;
     let winCheck = false;
@@ -93,37 +91,44 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
 })();
 
-var gameboard = document.getElementsByClassName("box");
-gameboard = [...gameboard];
-var resetBttn = document.getElementById("resetBttn");
-
-gameboard.forEach(square => {
-    square.addEventListener('click', (e) => {
-        placeToken(e, square)}
-    ) 
-});
 
 
-function placeToken(e, square) {
-    var box = e.target.id
-    var token = GameController.getActivePlayer().token;
-    boxNumber = Number(box.charAt(box.length-1));
-    validMove = GameController.validityCheck(boxNumber);
-    if (validMove) {
-        square.innerHTML = token;
-        GameController.game(boxNumber);
-    };
-};
+const UIController = function() {
+    var gameboard = document.getElementsByClassName("box");
+    gameboard = [...gameboard];
+    var resetBttn = document.getElementById("resetBttn");
 
-resetBttn.addEventListener('click', resetBoard);
-
-function resetBoard() {
     gameboard.forEach(square => {
-        square.innerHTML = " ";
+        square.addEventListener('click', (e) => {
+            placeToken(e, square);}
+        ) 
     });
 
-    GameController.resetGame();
-};
+    resetBttn.addEventListener('click', resetBoard);
+
+    //adds token to UI
+    function placeToken(e, square) {
+        var box = e.target.id;
+        var token = GameController.getActivePlayer().token;
+        var boxNumber = Number(box.charAt(box.length-1));
+        validMove = GameController.validityCheck(boxNumber);
+        if (validMove) {
+            square.innerHTML = token;
+            GameController.game(boxNumber);
+        };
+    };
+
+    //clearns board and resets game
+    function resetBoard() {
+        gameboard.forEach(square => {
+            square.innerHTML = "";
+        });
+
+        GameController.resetGame();
+    };
+
+}();
+
 
 
 
