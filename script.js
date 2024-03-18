@@ -74,6 +74,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
     //initializes and plays the game 
     const game = function (key) {
+
         if (!winCheck && filledSquares < 9) {
             makeMove(key);
             checkForWin();
@@ -83,8 +84,10 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
         if (winCheck) {
             gameOver = "win";
+            switchPlayerTurn(); //so that the correct winner is shown
         } else if (!winCheck && filledSquares === 9) {
             gameOver = "draw";
+            switchPlayerTurn();
         }
 
     }
@@ -134,6 +137,10 @@ const UIController = function() {
             gameboard.forEach(square => {
                 square.disabled = true;
             })
+        }
+
+        if (gameOver === "win") {
+            announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`
         }
     };
 
