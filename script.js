@@ -99,16 +99,16 @@ const UIController = function() {
     var resetBttn = document.getElementById("resetBttn");
 
     gameboard.forEach(square => {
-        square.addEventListener('click', (e) => {
-            placeToken(e, square);}
+        square.addEventListener('click', () => {
+            placeToken(square);}
         ) 
     });
 
     resetBttn.addEventListener('click', resetBoard);
 
     //adds token to UI
-    function placeToken(e, square) {
-        var box = e.target.id;
+    function placeToken(square) {
+        var box = square.id;
         var token = GameController.getActivePlayer().token;
         var boxNumber = Number(box.charAt(box.length-1));
         validMove = GameController.validityCheck(boxNumber);
@@ -133,6 +133,7 @@ const UIController = function() {
     };
 
 }();
+
 
 
 
