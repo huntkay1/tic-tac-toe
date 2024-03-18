@@ -28,14 +28,12 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     let activePlayer = players[0];
     const gameboard = ["", "", "", "", "", "", "", "", ""];
 
-    
+    const getActivePlayer = () => activePlayer;
+
     //alternates player turns
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0]
     };
-
-
-    const getActivePlayer = () => activePlayer;
 
 
     //places token in the array
@@ -48,9 +46,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     const validityCheck = (box) => {
         if (gameboard[box] === "") {
             return true;
-        } else {
-            alert("Can't move there!")
-        };
+        } 
     };
 
     //compares each winning combo with a board row at those indexes 
@@ -74,7 +70,6 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
     //initializes and plays the game 
     const game = function (key) {
-
         if (!winCheck && filledSquares < 9) {
             makeMove(key);
             checkForWin();
@@ -112,11 +107,11 @@ const UIController = function() {
 
     resetBttn.addEventListener('click', resetBoard);
 
+
     //adds token to UI
     function placeToken(square) {
         var box = square.id;
-        var activePlayer = GameController.getActivePlayer();
-        var token = activePlayer.token;
+        var token = GameController.getActivePlayer().token;
         var boxNumber = Number(box.charAt(box.length-1));
         validMove = GameController.validityCheck(boxNumber);
         if (validMove) {
@@ -128,8 +123,9 @@ const UIController = function() {
                 GameController.game(boxNumber);
             }
         };
-        announcement.innerHTML = `${GameController.getActivePlayer().name}'s turn!`
+
         gameOverCheck();
+        updateAnnouncement();
     };
 
     //checks for a win or draw and disables the buttons when needed
@@ -137,13 +133,8 @@ const UIController = function() {
         if (gameOver === "win" || gameOver === "draw") {
             gameboard.forEach(square => {
                 square.disabled = true;
+                updateAnnouncement();
             })
-        }
-
-        if (gameOver === "win") {
-            announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`
-        } else if (gameOver === "draw") {
-            announcement.innerHTML = "It's a draw!"
         }
     };
 
@@ -157,6 +148,18 @@ const UIController = function() {
 
         GameController.resetGame();
     };
+
+
+    function updateAnnouncement() {
+        var activePlayer = GameController.getActivePlayer();
+        announcement.innerHTML = `${activePlayer.name}'s turn!`;
+        
+        if (gameOver === "win") {
+            announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`
+        } else if (gameOver === "draw") {
+            announcement.innerHTML = "It's a draw!"
+        };
+    }
 
 }();
 
