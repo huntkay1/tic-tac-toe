@@ -1,3 +1,5 @@
+var gameOver = "";
+
 const GameController = (function(playerOneName = "Player One", playerTwoName = "Player Two" ) {
     const winningCombos = [
         [0,1,2], 
@@ -80,9 +82,9 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
         }
 
         if (winCheck) {
-            alert("Win")
+            gameOver = "win";
         } else if (!winCheck && filledSquares === 9) {
-            alert("Draw")
+            gameOver = "draw";
         }
 
     }
@@ -121,12 +123,24 @@ const UIController = function() {
                 GameController.game(boxNumber);
             }
         };
+
+        gameOverCheck();
     };
 
-    //clearns board and resets game
+    function gameOverCheck() {
+        if (gameOver === "win" || gameOver === "draw") {
+            gameboard.forEach(square => {
+                square.disabled = true;
+            })
+        }
+    };
+
+    //clears board and resets game
     function resetBoard() {
         gameboard.forEach(square => {
             square.innerHTML = "";
+            square.disabled = false;
+            gameOver = "";
         });
 
         GameController.resetGame();
