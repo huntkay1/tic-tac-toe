@@ -144,6 +144,7 @@ const UIController = function() {
             square.innerHTML = "";
             square.disabled = false;
             gameOver = "";
+            updateAnnouncement();
         });
 
         GameController.resetGame();
@@ -155,9 +156,9 @@ const UIController = function() {
         announcement.innerHTML = `${activePlayer.name}'s turn!`;
         
         if (gameOver === "win") {
-            announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`
+            announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`;
         } else if (gameOver === "draw") {
-            announcement.innerHTML = "It's a draw!"
+            announcement.innerHTML = "It's a draw!";
         };
     }
 
