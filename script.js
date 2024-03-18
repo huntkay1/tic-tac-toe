@@ -99,6 +99,7 @@ const UIController = function() {
     var gameboard = document.getElementsByClassName("box");
     gameboard = [...gameboard];
     var resetBttn = document.getElementById("resetBttn");
+    var announcement = document.getElementById("announcement");
 
     gameboard.forEach(square => {
         square.addEventListener('click', () => {
@@ -116,10 +117,10 @@ const UIController = function() {
         validMove = GameController.validityCheck(boxNumber);
         if (validMove) {
             if (token === "X") {
-                square.innerHTML = "<img src='X-animation.gif' class='animation'/> ";
+                square.innerHTML = square.innerHTML = "<img src='X-animation.gif?" + Math.random() + "' class='animation'/>";
                 GameController.game(boxNumber);
             } else {
-                square.innerHTML = "<img src='O-animation.gif' class='animation'/> ";
+                square.innerHTML = square.innerHTML = "<img src='O-animation.gif?" + Math.random() + "' class='animation'/>";
                 GameController.game(boxNumber);
             }
         };
@@ -127,6 +128,7 @@ const UIController = function() {
         gameOverCheck();
     };
 
+    //checks for a win or draw and disables the buttons when needed
     function gameOverCheck() {
         if (gameOver === "win" || gameOver === "draw") {
             gameboard.forEach(square => {
