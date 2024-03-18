@@ -115,7 +115,8 @@ const UIController = function() {
     //adds token to UI
     function placeToken(square) {
         var box = square.id;
-        var token = GameController.getActivePlayer().token;
+        var activePlayer = GameController.getActivePlayer();
+        var token = activePlayer.token;
         var boxNumber = Number(box.charAt(box.length-1));
         validMove = GameController.validityCheck(boxNumber);
         if (validMove) {
@@ -127,7 +128,7 @@ const UIController = function() {
                 GameController.game(boxNumber);
             }
         };
-
+        announcement.innerHTML = `${GameController.getActivePlayer().name}'s turn!`
         gameOverCheck();
     };
 
@@ -141,6 +142,8 @@ const UIController = function() {
 
         if (gameOver === "win") {
             announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`
+        } else if (gameOver === "draw") {
+            announcement.innerHTML = "It's a draw!"
         }
     };
 
