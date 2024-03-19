@@ -27,6 +27,9 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
     let winCheck = false;
     let activePlayer = players[0];
     const gameboard = ["", "", "", "", "", "", "", "", ""];
+    var winningRow;
+
+    const getBoard = () => gameboard;
 
     const getActivePlayer = () => activePlayer;
 
@@ -56,9 +59,12 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
             if (gameboard[a] !== "" && (gameboard[a] === gameboard[b] && gameboard[b] === gameboard[c])) {
                 winCheck = true;
+                winningRow = [a,b,c]
             }
         });
     };
+
+    const getWinningRow = () => winningRow
 
     //resets manipulated elements
     const resetGame = () => {
@@ -87,7 +93,7 @@ const GameController = (function(playerOneName = "Player One", playerTwoName = "
 
     }
 
-    return {getActivePlayer, game, validityCheck, resetGame}
+    return {getActivePlayer, game, validityCheck, resetGame, getWinningRow, getBoard}
 
 })();
 
@@ -136,15 +142,23 @@ const UIController = function() {
                 updateAnnouncement();
             })
         }
+        
     };
 
     //clears board and resets game
     function resetBoard() {
+        winningSquares = document.getElementsByClassName("winning-square");
+        winningSquares = [...winningSquares]
         gameboard.forEach(square => {
             square.innerHTML = "";
             square.disabled = false;
             gameOver = "";
             updateAnnouncement();
+        });
+
+        //remove winning squares background color
+        winningSquares.forEach(square => {
+            square.classList.remove("winning-square");
         });
 
         GameController.resetGame();
@@ -155,8 +169,15 @@ const UIController = function() {
         var activePlayer = GameController.getActivePlayer();
         announcement.innerHTML = `${activePlayer.name}'s turn!`;
         
+        //update winning announcement
         if (gameOver === "win") {
+            var winningRow = GameController.getWinningRow();
             announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`;
+            
+            //change background color of winning squares
+            winningRow.forEach(item => {
+                gameboard[item].classList.add("winning-square");
+            });
         } else if (gameOver === "draw") {
             announcement.innerHTML = "It's a draw!";
         };

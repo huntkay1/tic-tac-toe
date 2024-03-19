@@ -73,5 +73,9 @@ img {
     border-right: var(--border);
 }
 
+.winning-square {
+    background-color: rgb(255,252,127, .8)
+}
+
 
 
