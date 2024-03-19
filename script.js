@@ -168,20 +168,23 @@ const UIController = function() {
     function updateAnnouncement() {
         var activePlayer = GameController.getActivePlayer();
         announcement.innerHTML = `${activePlayer.name}'s turn!`;
-        
+    
         //update winning announcement
         if (gameOver === "win") {
             var winningRow = GameController.getWinningRow();
             announcement.innerHTML = `${GameController.getActivePlayer().name} wins!`;
             
-            //change background color of winning squares
-            winningRow.forEach(item => {
-                gameboard[item].classList.add("winning-square");
-            });
+            //change background color of winning squares after 1 second
+            setTimeout(() => {
+                winningRow.forEach(item => {
+                    gameboard[item].classList.add("winning-square");
+                });
+            }, 1000); 
+            
         } else if (gameOver === "draw") {
             announcement.innerHTML = "It's a draw!";
         };
-    }
+    };
 
 }();
 
